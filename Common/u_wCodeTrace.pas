@@ -1,5 +1,7 @@
-unit u_wCodeTrace;
-
+п»їunit u_wCodeTrace;
+///
+///  РћР±РЅРѕРІР»РµРЅРЅС‹Р№ РІР°СЂРёР°РЅС‚ РјРѕРґСѓР»СЏ РѕС‚ 2022 РіРѕРґР° - РґРѕР±Р°РІР»РµРЅР° РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ РІС‹Р±РѕСЂР° РїРѕСЂС‚Р° РґР»СЏ Р»РѕРіРёСЂРѕРІР°РЅРёСЏ
+///
 interface
 
 uses
@@ -12,11 +14,11 @@ type
  TCodeTraceItem=class(TPersistent)
   public
   /// <summary>
-  ///      имя команды
+  ///      РёРјСЏ РєРѕРјР°РЅРґС‹
   /// </summary>
    CommandName:String;
   /// <summary>
-  ///     режим отработки
+  ///     СЂРµР¶РёРј РѕС‚СЂР°Р±РѕС‚РєРё
   /// </summary>
    CommandRegime:Integer;
    MessData:string;
@@ -27,14 +29,14 @@ type
     function GetCommandParams(const aParamsIdent:String='DATA'):string;
     function ExtractDataFromString(const aDataStr:String):boolean;
     /// <summary>
-    ///    получить описание в виде строки для отчета
+    ///    РїРѕР»СѓС‡РёС‚СЊ РѕРїРёСЃР°РЅРёРµ РІ РІРёРґРµ СЃС‚СЂРѕРєРё РґР»СЏ РѕС‚С‡РµС‚Р°
     /// </summary>
     function DataToString(agetDataRegime:integer=1):string;
     procedure Assign(Source: TPersistent); override;
     constructor Create(const aCommand,aMsgData:String);
     constructor CreateFromString(const aData:String);
     /// <summary>
-    ///     создание с помощью копии
+    ///     СЃРѕР·РґР°РЅРёРµ СЃ РїРѕРјРѕС‰СЊСЋ РєРѕРїРёРё
     /// </summary>
     constructor CreateFrom(const aSource:TCodeTraceItem);
     function IsEmpty:boolean;
@@ -58,7 +60,7 @@ end;
 
 ///////////////////////////////////////
 /// <summary>
-///    Управление логированием - центральный синглтон
+///    РЈРїСЂР°РІР»РµРЅРёРµ Р»РѕРіРёСЂРѕРІР°РЅРёРµРј - С†РµРЅС‚СЂР°Р»СЊРЅС‹Р№ СЃРёРЅРіР»С‚РѕРЅ
 /// </summary>
  TCodeTraceManager=class(TObject)
   private
@@ -68,11 +70,11 @@ end;
    FMaxItemsCount:integer;
    FSocket:TUDpCodeTraceSocket;
    /// <summary>
-   ///    список всех логов - объекты
+   ///    СЃРїРёСЃРѕРє РІСЃРµС… Р»РѕРіРѕРІ - РѕР±СЉРµРєС‚С‹
    /// </summary>
    FItems:TObjectList<TCodeTraceItem>;
    /// <summary>
-   ///    условия логирования - набор
+   ///    СѓСЃР»РѕРІРёСЏ Р»РѕРіРёСЂРѕРІР°РЅРёСЏ - РЅР°Р±РѕСЂ
    /// </summary>
    FSigns:TDictionary<String,Boolean>;
    FEnabled:boolean;
@@ -97,21 +99,21 @@ end;
  end;
 
  /// <summary>
- ///     заполнить список из предустановленных команд - сервис
- ///     (вернет кол-во команд)
+ ///     Р·Р°РїРѕР»РЅРёС‚СЊ СЃРїРёСЃРѕРє РёР· РїСЂРµРґСѓСЃС‚Р°РЅРѕРІР»РµРЅРЅС‹С… РєРѕРјР°РЅРґ - СЃРµСЂРІРёСЃ
+ ///     (РІРµСЂРЅРµС‚ РєРѕР»-РІРѕ РєРѕРјР°РЅРґ)
  /// </summary>
  function ct_FillCommandsList(aRegime:integer; const aItems:TStrings):integer;
 
 
 {$IFNDEF LINK_PRO}
- /// логирование  -- Синглтон ---
+ /// Р»РѕРіРёСЂРѕРІР°РЅРёРµ  -- РЎРёРЅРіР»С‚РѕРЅ ---
 var wCode: TCodeTraceManager = nil;
    /// <summary>
-  /// логировать с командами вида enter exit mote warn err
+  /// Р»РѕРіРёСЂРѕРІР°С‚СЊ СЃ РєРѕРјР°РЅРґР°РјРё РІРёРґР° enter exit mote warn err
   /// </summary>
 procedure wLog(const aCommand, aMsgData: String; const aSignNames: string = '');
 /// <summary>
-/// логировать исключительную ситуацию
+/// Р»РѕРіРёСЂРѕРІР°С‚СЊ РёСЃРєР»СЋС‡РёС‚РµР»СЊРЅСѓСЋ СЃРёС‚СѓР°С†РёСЋ
 /// </summary>
 procedure wLogE(const aPlaceStr: string; aE: Exception);
 {$ENDIF}
@@ -119,15 +121,15 @@ procedure wLogE(const aPlaceStr: string; aE: Exception);
 
 ///////////////////////
 ///
-///  логирование:
+///  Р»РѕРіРёСЂРѕРІР°РЅРёРµ:
 // wCode.Enabled := Environ.globalDataFlag['W_DEBUG'];
 ///
-///  пример вызова:
+///  РїСЂРёРјРµСЂ РІС‹Р·РѕРІР°:
 ///  wLog('app','Home');
 ///  wLog('quit','exit_RUN_App');
 ///
 ///   wLog('>','MainFrm_Do_BeforeLostConnection');
-///    вход-выход процедуры-метода
+///    РІС…РѕРґ-РІС‹С…РѕРґ РїСЂРѕС†РµРґСѓСЂС‹-РјРµС‚РѕРґР°
 ///    wLog('n','MainFrm_Do_BeforeLostConnection_SET_DISABLED');
 ///    wLog('+','post_mpSgtin');
 ///    wLog('i','post_mpSgtin');
@@ -283,7 +285,7 @@ begin
   Result:=-1;
   LCommand:=Trim(lowerCase(aComName));
   if LCommand='' then exit;
-  /// нач. замена
+  /// РЅР°С‡. Р·Р°РјРµРЅР°
   LChar:=LCommand[1];
   if Length(LCommand)=1 then
       case LChar of
@@ -302,7 +304,7 @@ begin
        '.',',': LCommand:='user';
        'q':  LCommand:='quit';
       end;
-  /// синонимы
+  /// СЃРёРЅРѕРЅРёРјС‹
   if (Pos('error',LCommand)=1) then
      LCommand:='err'
   else if (Pos('warning',LCommand)=1) then
@@ -384,7 +386,7 @@ begin
  L_err:='';
  LCommand:=Trim(aCommand);
  LMsgData:=aMsgData;
- /// работа с профайлером - найти разницу между пред. вызовом
+ /// СЂР°Р±РѕС‚Р° СЃ РїСЂРѕС„Р°Р№Р»РµСЂРѕРј - РЅР°Р№С‚Рё СЂР°Р·РЅРёС†Сѓ РјРµР¶РґСѓ РїСЂРµРґ. РІС‹Р·РѕРІРѕРј
  LProfFlag:=(Pos('*PROF',LMsgData)>0);
  if LProfFlag then
   begin
@@ -410,7 +412,7 @@ begin
  try
   if LItem.CommandName='' then
    begin
-    // для неописанных команд (или некорректных)
+    // РґР»СЏ РЅРµРѕРїРёСЃР°РЅРЅС‹С… РєРѕРјР°РЅРґ (РёР»Рё РЅРµРєРѕСЂСЂРµРєС‚РЅС‹С…)
      LItem.CommandName:='user:';
      LItem.MessData:=Concat('(',LCommand,')> ',LItem.MessData);
    end;
@@ -425,7 +427,7 @@ begin
    // send
   if FSocket.FUdpClient.Connected=false then
      FSocket.FUdpClient.Connect;
-  ///  в сокет идут уже команды со скорректированным именем и данными
+  ///  РІ СЃРѕРєРµС‚ РёРґСѓС‚ СѓР¶Рµ РєРѕРјР°РЅРґС‹ СЃРѕ СЃРєРѕСЂСЂРµРєС‚РёСЂРѕРІР°РЅРЅС‹Рј РёРјРµРЅРµРј Рё РґР°РЅРЅС‹РјРё
   if FSocket.FUdpClient.Connected=true then
    begin
       FSocket.SendString(LItem.DataToString(1));
@@ -539,7 +541,7 @@ begin
 end;
 
 {$IFNDEF LINK_PRO}
-/// логирование
+/// Р»РѕРіРёСЂРѕРІР°РЅРёРµ
 procedure wLog(const aCommand, aMsgData: String; const aSignNames: string = '');
 begin
  if Assigned(wCode) then
