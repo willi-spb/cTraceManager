@@ -1,0 +1,13 @@
+﻿[Timer1]
+Coordinates=57,77,55,36
+
+[IdUDPClient1]
+Coordinates=154,1,92,36
+
+[IdUDPServer1]
+Coordinates=154,56,97,36
+
+[]
+Coordinates=194,10,59,58
+Visible=True
+
